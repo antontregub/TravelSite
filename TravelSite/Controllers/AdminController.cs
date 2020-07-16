@@ -64,6 +64,25 @@ namespace TravelSite.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id != null)
+            {
+                Trip trip = await db.Trips.FirstOrDefaultAsync(p => p.Id == id);
+
+                if (trip != null)
+                {
+                    db.Trips.Remove(trip);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
+        }
+
         [Authorize(Policy = "RequireAdministratorRole")]
         public IActionResult ShowImage()
         {
