@@ -15,7 +15,7 @@ namespace TravelSite.Controllers
     public class AdminController : Controller
     {
         ApplicationDbContext db;
-
+        // todo validation and fixed name in text
         public AdminController(ApplicationDbContext context)
         {
             db = context;

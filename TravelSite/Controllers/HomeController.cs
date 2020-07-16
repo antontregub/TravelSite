@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TravelSite.Data;
 using TravelSite.Models;
@@ -20,6 +21,7 @@ namespace TravelSite.Controllers
         {
             db = context;
         }
+
         public IActionResult Index()
         {
             return View(db.Trips.ToList());
@@ -28,6 +30,18 @@ namespace TravelSite.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Show(Guid? id)
+        {
+            if (id != null)
+            {
+                Trip trip = await db.Trips.FirstOrDefaultAsync(p => p.Id == id);
+                if (trip != null)
+                    return View(trip);
+            }
+            return NotFound();
         }
 
 
