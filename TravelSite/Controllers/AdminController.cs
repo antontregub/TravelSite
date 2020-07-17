@@ -54,6 +54,12 @@ namespace TravelSite.Controllers
             return View(db.Trips.ToList());
         }
 
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Authorize(Policy = "RequireAdministratorRole")]
         public async Task<IActionResult> Create(Trip Entity)

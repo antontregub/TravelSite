@@ -38,6 +38,9 @@ namespace TravelSite.Controllers
             if (id != null)
             {
                 Trip trip = await db.Trips.FirstOrDefaultAsync(p => p.Id == id);
+                List<Review> reviews =  db.Reviews.Where(n => n.TravelId == trip.Id).ToList();
+                trip.Reviews = reviews;
+
                 if (trip != null)
                     return View(trip);
             }
@@ -49,6 +52,30 @@ namespace TravelSite.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        // todo tree
+        [HttpGet]
+        public async Task<IActionResult> WriteReview(Guid? id)
+        {
+            var review = new Review();
+            review.TravelId = id.Value;
+            review.Id = Guid.NewGuid();
+            if (id != null)
+            {
+                return View(review);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> WriteReview(Review Entity)
+        {
+            var a = Entity;
+            a.Id = Guid.NewGuid();
+            db.Reviews.Add(a);
+            await db.SaveChangesAsync();
+            return View();
         }
     }
 }

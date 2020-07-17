@@ -11,6 +11,7 @@ namespace TravelSite.Data
     {
         public DbSet<Trip> Trips { get; set; }
         public DbSet<ImageGallery> ImageGalleries { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

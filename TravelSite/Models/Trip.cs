@@ -16,5 +16,7 @@ namespace TravelSite.Models
         public Guid IdMainPhoto { get; set; }
         public DateTime DataStart { get; set; }
         public DateTime DataFinish { get; set; }
+
+        public List<Review> Reviews { get; set; }
     }
 }
