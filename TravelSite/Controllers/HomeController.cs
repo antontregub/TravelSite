@@ -31,7 +31,7 @@ namespace TravelSite.Controllers
         {
             return View();
         }
-
+         
         [HttpGet]
         public async Task<IActionResult> Show(Guid? id)
         {
@@ -39,7 +39,7 @@ namespace TravelSite.Controllers
             {
                 Trip trip = await db.Trips.FirstOrDefaultAsync(p => p.Id == id);
                 List<Review> reviews =  db.Reviews.Where(n => n.TravelId == trip.Id).ToList();
-                trip.Reviews = reviews;
+                trip.Reviews = SortReviews(reviews);
 
                 if (trip != null)
                     return View(trip);
@@ -55,7 +55,7 @@ namespace TravelSite.Controllers
         }
 
         // todo tree
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> WriteReview(Guid? id)
         {
             var review = new Review();
@@ -68,7 +68,21 @@ namespace TravelSite.Controllers
             return NotFound();
         }
 
-        [HttpPost]
+        [HttpGet("{id}/{parentid}")]
+        public async Task<IActionResult> WriteReview(Guid? id, Guid? parentid)
+        {
+            var review = new Review();
+            review.TravelId = id.Value;
+            review.Id = Guid.NewGuid();
+            review.ParentId = Guid.Parse(parentid.ToString());
+            if (id != null)
+            {
+                return View(review);
+            }
+            return NotFound();
+        }
+
+        [HttpPost("{id}/{parentid}")]
         public async Task<IActionResult> WriteReview(Review Entity)
         {
             var a = Entity;
@@ -77,5 +91,33 @@ namespace TravelSite.Controllers
             await db.SaveChangesAsync();
             return View();
         }
+
+        private List<Review> SortReviews(List<Review> list)
+        {
+            List<Review> sortedList = new List<Review>();
+
+            foreach (var item in list)
+            {
+                if (item.ParentId == Guid.Empty)
+                {
+                    sortedList.Add(item);
+                }
+            }
+
+            sortedList = sortedList.OrderBy(n => n.Data).ToList();
+
+            foreach (var item in list)
+            {
+                if (item.ParentId != Guid.Empty)
+                {
+                    var found = sortedList.Find(n => n.Id == item.ParentId);
+                    var index = sortedList.IndexOf(found);
+                    sortedList.Insert(index + 1, item);
+                }
+            }
+
+            return sortedList;
+        }
+
     }
 }
