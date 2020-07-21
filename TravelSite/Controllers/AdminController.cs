@@ -54,6 +54,22 @@ namespace TravelSite.Controllers
             return View(db.Trips.ToList());
         }
 
+        [HttpGet]
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> TripDetail(Guid? id)
+        {
+            if (id != null)
+            {
+                Trip trip = await db.Trips.FirstOrDefaultAsync(p => p.Id == id);
+                List<Review> reviews = db.Reviews.Where(n => n.TravelId == trip.Id).ToList();
+                trip.Reviews = SortReviews(reviews);
+
+                if (trip != null)
+                    return View(trip);
+            }
+            return NotFound();
+        }
+
         [Authorize(Policy = "RequireAdministratorRole")]
         public async Task<IActionResult> Create()
         {
@@ -172,6 +188,52 @@ namespace TravelSite.Controllers
                 }
             }
             return NotFound();
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> DeleteReview(Guid? id)
+        {
+            if (id != null)
+            {
+                Review trip = await db.Reviews.FirstOrDefaultAsync(p => p.Id == id);
+
+                if (trip != null)
+                {
+                    db.Reviews.Remove(trip);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
+        }
+
+        private List<Review> SortReviews(List<Review> list)
+        {
+            List<Review> sortedList = new List<Review>();
+
+            foreach (var item in list)
+            {
+                if (item.ParentId == Guid.Empty)
+                {
+                    sortedList.Add(item);
+                }
+            }
+
+            sortedList = sortedList.OrderBy(n => n.Data).ToList();
+
+            foreach (var item in list)
+            {
+                if (item.ParentId != Guid.Empty)
+                {
+                    var found = sortedList.Find(n => n.Id == item.ParentId);
+                    var index = sortedList.IndexOf(found);
+                    sortedList.Insert(index + 1, item);
+                }
+            }
+
+            return sortedList;
         }
     }
 }
