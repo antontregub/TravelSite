@@ -119,5 +119,18 @@ namespace TravelSite.Controllers
             return sortedList;
         }
 
+        public async Task<IActionResult> Recall()
+        {
+            EmailService emailService = new EmailService();
+            await emailService.SendEmailAsync("esesoves@gmail.com", "Тема письма", "Тест письма: тест!");
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public void SendTestEmail(EmailModel model)
+        {
+           
+        }
     }
 }
