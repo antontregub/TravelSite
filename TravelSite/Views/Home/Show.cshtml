@@ -1,4 +1,4 @@
-﻿@model TravelSite.Models.Trip
+﻿@model TravelSite.Models.ReviewAndTrip
 
 @{
     ViewData["Title"] = "Show";
@@ -11,58 +11,58 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            @Html.DisplayNameFor(model => model.Trip.Id)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Html.DisplayFor(model => model.Trip.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Trip.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Trip.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Country)
+            @Html.DisplayNameFor(model => model.Trip.Country)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Country)
+            @Html.DisplayFor(model => model.Trip.Country)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.Trip.City)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
+            @Html.DisplayFor(model => model.Trip.City)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Trip.Description)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Trip.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Trip.Price)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+            @Html.DisplayFor(model => model.Trip.Price)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdMainPhoto)
+            @Html.DisplayNameFor(model => model.Trip.IdMainPhoto)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdMainPhoto)
+            @Html.DisplayFor(model => model.Trip.IdMainPhoto)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataStart)
+            @Html.DisplayNameFor(model => model.Trip.DataStart)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataStart)
+            @Html.DisplayFor(model => model.Trip.DataStart)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataFinish)
+            @Html.DisplayNameFor(model => model.Trip.DataFinish)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataFinish)
+            @Html.DisplayFor(model => model.Trip.DataFinish)
         </dd>
 
         <hr align="center" size="2" color="#ff0000" />
@@ -72,7 +72,7 @@
         </p>
 
         <dd class="row1">
-            @foreach (var review1 in Model.Reviews)
+            @foreach (var review1 in Model.Trip.Reviews)
             {
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(review => review1.Name)
@@ -81,7 +81,7 @@
                 @Html.DisplayFor(review => review1.Name)
             </dd>
             <div>
-                @Html.ActionLink("WriteReview", "WriteReview", new { id = Model.Id, parentid= review1.Id }) |
+                @Html.ActionLink("WriteReview", "WriteReview", new { id = Model.Trip.Id, parentid= review1.Id }) |
                 <a asp-action="Index">Back to List</a>
             </div>
 
@@ -90,6 +90,29 @@
         </dl>
 </div>
 <div>
-    @Html.ActionLink("WriteReview", "WriteReview", new {  id = Model.Id }) |
+    @Html.ActionLink("WriteReview", "WriteReview", new { id = Model.Trip.Id }) |
     <a asp-action="Index">Back to List</a>
+
+    <form asp-action="WriteReview">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+       
+        <div class="form-group">
+            <label asp-for="NewReview.Mark" class="control-label"></label>
+            <input asp-for="NewReview.Mark" class="form-control" />
+            <span asp-validation-for="NewReview.Mark" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NewReview.Text" class="control-label"></label>
+            <input asp-for="NewReview.Text" class="form-control" />
+            <span asp-validation-for="NewReview.Text" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input asp-for="NewReview.TravelId" type="hidden" value ="e4a82c4a-184d-4bd2-a37c-a54733ee5001" class="form-control" />
+            <span asp-validation-for="NewReview.TravelId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
 </div>

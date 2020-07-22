@@ -15,4 +15,10 @@ namespace TravelSite.Models
         public DateTime Data { get; set; }
         public Guid ParentId { get; set; }
     }
+
+    public class ReviewAndTrip
+    {
+        public Trip Trip { get; set; }
+        public Review NewReview { get; set; }
+    }
 }

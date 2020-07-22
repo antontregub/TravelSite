@@ -41,8 +41,11 @@ namespace TravelSite.Controllers
                 List<Review> reviews =  db.Reviews.Where(n => n.TravelId == trip.Id).ToList();
                 trip.Reviews = SortReviews(reviews);
 
+                var a = new ReviewAndTrip();
+                a.Trip = trip;
+
                 if (trip != null)
-                    return View(trip);
+                    return View(a);
             }
             return NotFound();
         }
@@ -82,12 +85,13 @@ namespace TravelSite.Controllers
             return NotFound();
         }
 
-        [HttpPost("{id}/{parentid}")]
-        public async Task<IActionResult> WriteReview(Review Entity)
+       // [HttpPost("{id}/{parentid}")]
+        public async Task<IActionResult> WriteReview(ReviewAndTrip Entity)
         {
             var a = Entity;
-            a.Id = Guid.NewGuid();
-            db.Reviews.Add(a);
+            a.NewReview.Id = Guid.NewGuid();
+            a.NewReview.Name = Environment.UserName;
+            db.Reviews.Add(a.NewReview);
             await db.SaveChangesAsync();
             return View();
         }
