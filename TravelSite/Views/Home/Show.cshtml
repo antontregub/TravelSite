@@ -81,7 +81,7 @@
                 @Html.DisplayFor(review => review1.Name)
             </dd>
             <div>
-                @Html.ActionLink("WriteReview", "WriteReview", new { id = Model.Trip.Id, parentid= review1.Id }) |
+                @*@Html.ActionLink("WriteReview", "WriteReview", new { id = Model.Trip.Id, parentid= review1.Id }) |*@
                 <a asp-action="Index">Back to List</a>
             </div>
 
@@ -90,10 +90,10 @@
         </dl>
 </div>
 <div>
-    @Html.ActionLink("WriteReview", "WriteReview", new { id = Model.Trip.Id }) |
+    @*@Html.ActionLink("WriteReview", "WriteReview", new { id = Model.Trip.Id }) |*@
     <a asp-action="Index">Back to List</a>
 
-    <form asp-action="WriteReview">
+    @*<form asp-action="WriteReview">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
        
         <div class="form-group">
@@ -114,5 +114,5 @@
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
         </div>
-    </form>
+    </form>*@
 </div>

@@ -22,9 +22,14 @@ namespace TravelSite.Controllers
             db = context;
         }
 
+        //public IActionResult Index()
+        //{
+        //    return View(db.Trips.ToList());
+        //}
+
         public IActionResult Index()
         {
-            return View(db.Trips.ToList());
+            return View();
         }
 
         public IActionResult Privacy()
@@ -58,43 +63,43 @@ namespace TravelSite.Controllers
         }
 
         // todo tree
-        [HttpGet("{id}")]
-        public async Task<IActionResult> WriteReview(Guid? id)
-        {
-            var review = new Review();
-            review.TravelId = id.Value;
-            review.Id = Guid.NewGuid();
-            if (id != null)
-            {
-                return View(review);
-            }
-            return NotFound();
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> WriteReview(Guid? id)
+        //{
+        //    var review = new Review();
+        //    review.TravelId = id.Value;
+        //    review.Id = Guid.NewGuid();
+        //    if (id != null)
+        //    {
+        //        return View(review);
+        //    }
+        //    return NotFound();
+        //}
 
-        [HttpGet("{id}/{parentid}")]
-        public async Task<IActionResult> WriteReview(Guid? id, Guid? parentid)
-        {
-            var review = new Review();
-            review.TravelId = id.Value;
-            review.Id = Guid.NewGuid();
-            review.ParentId = Guid.Parse(parentid.ToString());
-            if (id != null)
-            {
-                return View(review);
-            }
-            return NotFound();
-        }
+        //[HttpGet("{id}/{parentid}")]
+        //public async Task<IActionResult> WriteReview(Guid? id, Guid? parentid)
+        //{
+        //    var review = new Review();
+        //    review.TravelId = id.Value;
+        //    review.Id = Guid.NewGuid();
+        //    review.ParentId = Guid.Parse(parentid.ToString());
+        //    if (id != null)
+        //    {
+        //        return View(review);
+        //    }
+        //    return NotFound();
+        //}
 
        // [HttpPost("{id}/{parentid}")]
-        public async Task<IActionResult> WriteReview(ReviewAndTrip Entity)
-        {
-            var a = Entity;
-            a.NewReview.Id = Guid.NewGuid();
-            a.NewReview.Name = Environment.UserName;
-            db.Reviews.Add(a.NewReview);
-            await db.SaveChangesAsync();
-            return View();
-        }
+        //public async Task<IActionResult> WriteReview(ReviewAndTrip Entity)
+        //{
+        //    var a = Entity;
+        //    a.NewReview.Id = Guid.NewGuid();
+        //    a.NewReview.Name = Environment.UserName;
+        //    db.Reviews.Add(a.NewReview);
+        //    await db.SaveChangesAsync();
+        //    return View();
+        //}
 
         private List<Review> SortReviews(List<Review> list)
         {
