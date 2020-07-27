@@ -158,7 +158,7 @@ namespace TravelSite.Controllers
         public async Task<IActionResult> SendMessage(EmailModel model)
         {
             EmailService emailService = new EmailService();
-            await emailService.SendEmailAsync("esesoves@gmail.com", "подписка", model.Email);
+            await emailService.SendEmailAsync(model.Email, model.Subject,  model.Message+", /n"+ model.Name +".");
             return RedirectToAction("Index");
         }
     }
