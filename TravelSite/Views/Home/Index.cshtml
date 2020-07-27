@@ -198,10 +198,11 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="mail_form">
-                            <div class="row no-gutters">
+                            <form class="row no-gutters" asp-action="Subscribe">
+                               
                                 <div class="col-lg-9 col-md-8">
                                     <div class="newsletter_field">
-                                        <input type="email" placeholder="Your mail">
+                                        <input type="email" name ="email" placeholder="Your mail">
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4">
@@ -209,7 +210,7 @@
                                         <button class="boxed-btn4 " type="submit">Subscribe</button>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

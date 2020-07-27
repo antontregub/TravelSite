@@ -32,6 +32,12 @@ namespace TravelSite.Controllers
             return View();
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -61,6 +67,8 @@ namespace TravelSite.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
 
         // todo tree
         //[HttpGet("{id}")]
@@ -126,6 +134,13 @@ namespace TravelSite.Controllers
             }
 
             return sortedList;
+        }
+
+        public async Task<IActionResult> Subscribe(string email)
+        {
+            EmailService emailService = new EmailService();
+            await emailService.SendEmailAsync("esesoves@gmail.com", "подписка", email);
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Recall()

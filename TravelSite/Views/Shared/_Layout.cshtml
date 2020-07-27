@@ -51,8 +51,9 @@
                                     <nav>
                                         <ul id="navigation">
                                             <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li> <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Register</a></l/li>
+                                            <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                                            @*// identity
+                                            <li> <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Register</a></l/li>*@
                                             <li>
                                                 <a href="#">pages <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
@@ -87,7 +88,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="seach_icon">
+                            @*// login form
+                                <div class="seach_icon">
 
                                 <a class="genric-btn danger circle" asp-area="Identity" asp-page="/Account/Login">
                                     <i class="fa">Login</i>
@@ -96,7 +98,7 @@
                                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                 </form>
 
-                            </div>
+                            </div>*@
                             <div class="col-12">
                                 <div class="mobile_menu d-block d-lg-none"></div>
                             </div>
