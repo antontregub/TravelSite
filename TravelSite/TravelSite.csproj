@@ -81,17 +81,6 @@
     <None Include="wwwroot\fonts\themify.woff" />
     <None Include="wwwroot\img\about\1.png" />
     <None Include="wwwroot\img\about\2.png" />
-    <None Include="wwwroot\img\banner\banner.png" />
-    <None Include="wwwroot\img\banner\banner2.png" />
-    <None Include="wwwroot\img\banner\banner3.png" />
-    <None Include="wwwroot\img\banner\bradcam.png" />
-    <None Include="wwwroot\img\banner\bradcam2.png" />
-    <None Include="wwwroot\img\banner\bradcam3.png" />
-    <None Include="wwwroot\img\banner\bradcam4.png" />
-    <None Include="wwwroot\img\banner\destination.png" />
-    <None Include="wwwroot\img\banner\newsletter.png" />
-    <None Include="wwwroot\img\banner\testmonial.png" />
-    <None Include="wwwroot\img\banner\video.png" />
     <None Include="wwwroot\img\blog\author.png" />
     <None Include="wwwroot\img\blog\blog_1.png" />
     <None Include="wwwroot\img\blog\blog_2.png" />
