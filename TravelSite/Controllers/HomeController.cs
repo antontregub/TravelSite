@@ -37,6 +37,10 @@ namespace TravelSite.Controllers
             return View();
         }
 
+        public IActionResult Contact()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
@@ -151,10 +155,11 @@ namespace TravelSite.Controllers
         }
 
 
-        [HttpPost]
-        public void SendTestEmail(EmailModel model)
+        public async Task<IActionResult> SendMessage(EmailModel model)
         {
-           
+            EmailService emailService = new EmailService();
+            await emailService.SendEmailAsync("esesoves@gmail.com", "подписка", model.Email);
+            return RedirectToAction("Index");
         }
     }
 }

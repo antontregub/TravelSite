@@ -8,8 +8,9 @@ namespace TravelSite.Models
     public class EmailModel
     {
         public string Email { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
+        public string Name  { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
     }
 
     public class Email
