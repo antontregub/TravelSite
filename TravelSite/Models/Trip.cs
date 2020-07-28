@@ -11,7 +11,7 @@ namespace TravelSite.Models
         public string Name { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        public string Description { get; set; }
+        public string Content { get; set; }
         public int Price { get; set; }
         public Guid IdMainPhoto { get; set; }
         public DateTime DataStart { get; set; }
