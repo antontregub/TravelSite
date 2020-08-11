@@ -235,5 +235,42 @@ namespace TravelSite.Controllers
 
             return sortedList;
         }
+
+
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> CreatePost()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> CreatePost(BlogCreate entity)
+        {
+            Blog blog = new Blog
+            {
+                Id = Guid.NewGuid(),
+                Title = entity.Title,
+                Tag = entity.Tag,
+                ShortContent = entity.ShortContent,
+                Date = entity.Date,
+                Content =entity.Content
+            };
+            if (entity.MainPhoto != null)
+            {
+                byte[] imageData = null;
+                // считываем переданный файл в массив байтов
+                using (var binaryReader = new BinaryReader(entity.MainPhoto.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)entity.MainPhoto.Length);
+                }
+                // установка массива байтов
+                blog.MainPhoto = imageData;
+            }
+            db.Blogs.Add(blog);
+            db.SaveChanges();
+
+            return View();
+        }
     }
 }
