@@ -1,7 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @*<div class="text-center">
         <h1 class="display-4">Welcome</h1>
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
@@ -70,7 +71,8 @@
         <div class="row align-items-center">
             <div class="col-lg-3">
                 <div class="form_area">
-                    <h3>Where you want to go?</h3>
+                    @*<h3>Where you want to go?</h3>*@
+                    <h3>@Localizer["Header"]</h3>
                 </div>
             </div>
             <div class="col-lg-9">
@@ -199,10 +201,10 @@
                     <div class="col-lg-7">
                         <div class="mail_form">
                             <form class="row no-gutters" asp-action="Subscribe">
-                               
+
                                 <div class="col-lg-9 col-md-8">
                                     <div class="newsletter_field">
-                                        <input type="email" name ="email" placeholder="Your mail">
+                                        <input type="email" name="email" placeholder="Your mail">
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4">
