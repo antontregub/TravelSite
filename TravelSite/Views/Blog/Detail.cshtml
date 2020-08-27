@@ -25,11 +25,14 @@
             <div class="col-lg-8 posts-list">
                 <div class="single-post">
                     <div class="feature-img">
-                        <img class="img-fluid" src="img/blog/single_blog_1.png" alt="">
+                        @if (Model.MainPhoto != null)
+                        {
+                            <img class="card-img rounded-0" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.MainPhoto))" alt="" />
+                        }
                     </div>
                     <div class="blog_details">
                         <h2>
-                            @Html.DisplayNameFor(model => model.Title)
+                            @Model.Title
                         </h2>
                         <ul class="blog-info-link mt-3 mb-4">
                             <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelSite.Data;
@@ -20,16 +21,24 @@ namespace TravelSite.Controllers
 
         public IActionResult Index()
         {
-            var blog = db.Blogs.ToList();
+            var rqf = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+            // Culture contains the information of the requested culture
+            var culture = rqf.RequestCulture.Culture;
+
+            var blog = db.Blogs.Where(p=>p.Language == culture.ToString());
             return View(blog);
         }
 
         [HttpGet]
         public async Task<IActionResult> Detail(Guid? id)
         {
+            var rqf = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+            // Culture contains the information of the requested culture
+            var culture = rqf.RequestCulture.Culture;
+
             if (id != null)
             {
-                Blog trip = await db.Blogs.FirstOrDefaultAsync(p => p.Id == id);
+                Blog trip = await db.Blogs.Where(p => p.Id == id).Where( p=>p.Language== culture.ToString()).FirstOrDefaultAsync();
                 if (trip != null)
                     return View(trip);
             }

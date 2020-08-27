@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +14,7 @@ namespace TravelSite.Models
         public string ShortContent { get; set; }
         public string Content { get; set; }
         public string Tag { get; set; }
+        public string Language { get; set; }
         public  byte[] MainPhoto { get; set; }
         public DateTime Date { get; set; }
 
@@ -26,6 +28,8 @@ namespace TravelSite.Models
         public string ShortContent { get; set; }
         public string Content { get; set; }
         public string Tag { get; set; }
+        public CultureInfo Language { get; set; }
+
         public IFormFile MainPhoto { get; set; }
         public DateTime Date { get; set; }
 

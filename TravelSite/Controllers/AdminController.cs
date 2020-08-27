@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelSite.Data;
@@ -45,6 +47,64 @@ namespace TravelSite.Controllers
         {
             db.Trips.Update(trip);
             await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> EditPost(Guid? id)
+        {
+            if (id != null)
+            {
+                Blog blog = await db.Blogs.Where(p => p.Id == id).FirstOrDefaultAsync();
+
+                BlogCreate blogCreate = new BlogCreate
+                {
+                    Id = Guid.NewGuid(),
+                    Language = new CultureInfo( blog.Language.ToString()),
+                    Title = blog.Title,
+                    Tag = blog.Tag,
+                    ShortContent = blog.ShortContent,
+                    Date = DateTime.Now,
+                    Content = blog.Content
+                };
+
+                if (blogCreate != null)
+                    return View(blogCreate);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPost(BlogCreate entity)
+        {
+           Blog blog = new Blog
+            {
+                Id = entity.Id,
+                Language = entity.Language.ToString(),
+                Title = entity.Title,
+                Tag = entity.Tag,
+                ShortContent = entity.ShortContent,
+                Date = DateTime.Now,
+                Content = entity.Content
+            };
+            if (entity.MainPhoto != null)
+            {
+                byte[] imageData = null;
+                // считываем переданный файл в массив байтов
+                using (var binaryReader = new BinaryReader(entity.MainPhoto.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)entity.MainPhoto.Length);
+                }
+
+                // установка массива байтов
+                blog.MainPhoto = imageData;
+            }
+
+            db.Blogs.Update(blog);
+            db.Entry(blog).State = EntityState.Modified;
+            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -109,6 +169,13 @@ namespace TravelSite.Controllers
         public IActionResult ShowImage()
         {
            var a =  db.ImageGalleries.ToList();
+            return View(a);
+        }
+
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public IActionResult ShowPost()
+        {
+            var a = db.Blogs.ToList();
             return View(a);
         }
 
@@ -192,6 +259,27 @@ namespace TravelSite.Controllers
 
         [HttpGet]
         [Authorize(Policy = "RequireAdministratorRole")]
+        public async Task<IActionResult> DeletePost(Guid? id)
+        {
+            if (id != null)
+            {
+                Blog trip = await db.Blogs.Where(p => p.Id == id).FirstOrDefaultAsync();
+
+                if (trip != null)
+                {
+                    var a = db.ImageGalleries.ToList();
+                    //a.Remove(trip);
+                    db.Blogs.Remove(trip);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "RequireAdministratorRole")]
         public async Task<IActionResult> DeleteReview(Guid? id)
         {
             if (id != null)
@@ -247,29 +335,33 @@ namespace TravelSite.Controllers
         [Authorize(Policy = "RequireAdministratorRole")]
         public async Task<IActionResult> CreatePost(BlogCreate entity)
         {
-            Blog blog = new Blog
-            {
-                Id = Guid.NewGuid(),
-                Title = entity.Title,
-                Tag = entity.Tag,
-                ShortContent = entity.ShortContent,
-                Date = entity.Date,
-                Content =entity.Content
-            };
-            if (entity.MainPhoto != null)
-            {
-                byte[] imageData = null;
-                // считываем переданный файл в массив байтов
-                using (var binaryReader = new BinaryReader(entity.MainPhoto.OpenReadStream()))
-                {
-                    imageData = binaryReader.ReadBytes((int)entity.MainPhoto.Length);
-                }
-                // установка массива байтов
-                blog.MainPhoto = imageData;
-            }
-            db.Blogs.Add(blog);
-            db.SaveChanges();
+            var blogs =  db.Trips.Where(p => p.Id == entity.Id);
 
+            Blog blog = new Blog
+                {
+                    Id = Guid.NewGuid(),
+                    Language = entity.Language.ToString(),
+                    Title = entity.Title,
+                    Tag = entity.Tag,
+                    ShortContent = entity.ShortContent,
+                    Date = DateTime.Now,
+                    Content = entity.Content
+                };
+                if (entity.MainPhoto != null)
+                {
+                    byte[] imageData = null;
+                    // считываем переданный файл в массив байтов
+                    using (var binaryReader = new BinaryReader(entity.MainPhoto.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int) entity.MainPhoto.Length);
+                    }
+
+                    // установка массива байтов
+                    blog.MainPhoto = imageData;
+                }
+
+                db.Blogs.Add(blog);
+         
             return View();
         }
     }
