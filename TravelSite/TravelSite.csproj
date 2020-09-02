@@ -23,11 +23,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Identity\Pages\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <None Include="wwwroot\css\animate.css" />
     <None Include="wwwroot\css\bootstrap.min.css" />
     <None Include="wwwroot\css\flaticon.css" />
