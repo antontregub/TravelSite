@@ -22,6 +22,7 @@ namespace TravelSite.Controllers
         public IActionResult Index()
         {
             var rqf = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+
             // Culture contains the information of the requested culture
             var culture = rqf.RequestCulture.Culture;
 
@@ -43,6 +44,16 @@ namespace TravelSite.Controllers
                     return View(trip);
             }
             return NotFound();
+        }
+
+        public IActionResult Search(string? name)
+        {
+            IQueryable<Blog> users = db.Blogs.Include(p => p.Title);
+            if (!String.IsNullOrEmpty(name))
+            {
+                users = users.Where(p => p.Title.Contains(name));
+            }
+            return RedirectToAction("Index", users);
         }
     }
 }

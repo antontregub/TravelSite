@@ -361,7 +361,7 @@ namespace TravelSite.Controllers
                 }
 
                 db.Blogs.Add(blog);
-         
+            await db.SaveChangesAsync();
             return View();
         }
     }
